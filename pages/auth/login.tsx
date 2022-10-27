@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { auth } from '../../utils/firebase';
 import { useRouter } from 'next/router';
+import { auth } from '../../utils/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
-type Props = {};
-
-const Login = (props: Props) => {
+const Login = () => {
   const route = useRouter();
 
   const [user, loading] = useAuthState(auth);
@@ -16,7 +14,7 @@ const Login = (props: Props) => {
 
   const GoogleLogin = async () => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
+      await signInWithPopup(auth, googleProvider);
       route.push('/');
     } catch (error) {
       console.log('error');

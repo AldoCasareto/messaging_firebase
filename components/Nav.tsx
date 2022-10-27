@@ -1,13 +1,11 @@
-import Link from 'next/link';
 import React from 'react';
+import Link from 'next/link';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../utils/firebase';
-import Image from 'next/image';
 
-type Props = {};
-
-function Nav({}: Props) {
+const Nav = () => {
   const [user, loading] = useAuthState(auth);
+
   return (
     <nav className='flex justify-between py-10 items-center'>
       <Link href='/'>
@@ -29,14 +27,13 @@ function Nav({}: Props) {
               </button>
             </Link>
             <Link href='/dashboard'>
-              <h1>DashBoard</h1>
+              <img className='rounded-full w-12 cursor-pointer' src={user?.photoURL} />
             </Link>
-            <img src={user.photoURL} />
           </div>
         )}
       </ul>
     </nav>
   );
-}
+};
 
 export default Nav;
