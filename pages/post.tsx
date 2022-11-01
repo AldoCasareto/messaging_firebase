@@ -13,7 +13,7 @@ const Post = () => {
     e.preventDefault();
 
     if (!message.description) {
-      toast.error('please add a message', {
+      return toast.error('please add a message', {
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
