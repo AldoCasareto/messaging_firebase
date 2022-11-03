@@ -26,7 +26,7 @@ const Dashboard = (props: Props) => {
       {loading ? null : (
         <>
           <h1>Hello {user?.displayName?.split(' ')[0]}</h1>
-          <div>posts</div>
+          <div>posts </div>
           <button
             className='cursos-pointer'
             onClick={async () => {
