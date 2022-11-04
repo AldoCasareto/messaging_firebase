@@ -2,12 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { auth, db } from '../utils/firebase';
 import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 
 const Post = () => {
-  const [message, setMessage] = useState({ description: '' });
+  const route = useRouter();
+  const messageEdit = route.query;
+  const [message, setMessage] = useState<any>({
+    description: messageEdit.description ? messageEdit.description : '',
+    id: messageEdit.id || null,
+  });
   const [user, loading] = useAuthState(auth);
+
+  console.log(`messageEdit = `, messageEdit);
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
@@ -25,6 +32,12 @@ const Post = () => {
       });
     }
 
+    if (messageEdit) {
+      const docRef = doc(db, 'messages', message.id);
+      const updatedMessage = { ...message, timestamp: serverTimestamp() };
+      return await updateDoc(docRef, updatedMessage);
+    }
+
     const collectionRef = collection(db, 'messages');
     await addDoc(collectionRef, {
       ...message,
@@ -35,8 +48,6 @@ const Post = () => {
     });
     setMessage({ description: '' });
   };
-
-  console.log(message);
 
   return (
     <div className='my-20 p-12 shadow-lg rounded-lg max-w-md mx-auto'>
