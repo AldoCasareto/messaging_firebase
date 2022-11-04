@@ -9,7 +9,7 @@ const Post = () => {
   const route = useRouter();
   const messageEdit = route.query;
   const [message, setMessage] = useState<any>({
-    description: messageEdit.description ? messageEdit.description : '',
+    description: messageEdit.description || '',
     id: messageEdit.id || null,
   });
   const [user, loading] = useAuthState(auth);
@@ -35,6 +35,11 @@ const Post = () => {
     if (messageEdit) {
       const docRef = doc(db, 'messages', message.id);
       const updatedMessage = { ...message, timestamp: serverTimestamp() };
+      toast.success('Message has been edited 🚀', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1500,
+      });
+      setMessage({ description: '' });
       return await updateDoc(docRef, updatedMessage);
     }
 
@@ -45,6 +50,10 @@ const Post = () => {
       user: user?.uid,
       avatar: user?.photoURL,
       username: user?.displayName,
+    });
+    toast.success('Message has been posted 🚀', {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 1500,
     });
     setMessage({ description: '' });
   };
