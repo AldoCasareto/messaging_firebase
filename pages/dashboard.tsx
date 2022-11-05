@@ -39,7 +39,7 @@ const Dashboard = () => {
       {loading ? null : (
         <>
           <h1>Hello {user?.displayName?.split(' ')[0]}</h1>
-          <div>posts </div>
+          <div>Your messages!</div>
           <div>
             {messages?.map((message: any) => (
               <Message {...message} key={message.id}>
@@ -62,7 +62,7 @@ const Dashboard = () => {
             ))}
           </div>
           <button
-            className='cursos-pointer'
+            className='cursos-pointer font-medium bg-cyan-500 rounded-lg px-4 py-2 text-white my-4'
             onClick={async () => {
               await auth.signOut();
               route.push('/');
